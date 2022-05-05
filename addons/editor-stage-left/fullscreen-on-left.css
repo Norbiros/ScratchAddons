@@ -49,3 +49,12 @@
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+
+[class*='controls_controls-container'] img {
+  order: 1;
+}
+
+[class*='controls_controls-container'] div {
+  order: 0;
+}
+
