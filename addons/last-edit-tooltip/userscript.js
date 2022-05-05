@@ -1,12 +1,20 @@
 export default async function ({ addon, global, console, msg }) {
-  const data = await (
-    await fetch("https://api.scratch.mit.edu" + location.pathname.match(/\/projects\/[0-9]+/g)[0])
-  ).json();
+  let { redux } = addon.tab;
+
+  await redux.waitForState((state) => state.preview.status.project === "FETCHED", {
+    actions: ["SET_INFO"],
+  });
+
+  let data = redux.state.preview.projectInfo;
+
+  if (!data.history) return;
 
   while (true) {
-    const element = await addon.tab.waitForElement(".share-date", { markAsSeen: true });
-
-    if (!data.history) return;
+    const element = await addon.tab.waitForElement(".share-date", {
+      markAsSeen: true,
+      reduxEvents: ["scratch-gui/mode/SET_PLAYER", "fontsLoaded/SET_FONTS_LOADED", "scratch-gui/locales/SELECT_LOCALE"],
+      reduxCondition: (state) => state.scratchGui.mode.isPlayerOnly,
+    });
 
     // Using this instead of scratchAddons.l10n.locales
     // to avoid confusion between DD/MM/YYYY and MM/DD/YYYY.

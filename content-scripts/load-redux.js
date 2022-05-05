@@ -1,7 +1,11 @@
 function injectRedux() {
   window.__scratchAddonsRedux = {};
   if (typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ !== "undefined") {
-    return console.warn("Redux feature is disabled due to conflict.");
+    return console.warn(
+      "Redux feature is disabled due to conflict. \
+Some addons will not work. Uninstall other browser extensions to \
+fix this warning."
+    );
   }
 
   // ReDucks: Redux ducktyped
@@ -62,6 +66,8 @@ function injectRedux() {
   };
 }
 
-const injectReduxScript = document.createElement("script");
-injectReduxScript.append(document.createTextNode("(" + injectRedux + ")()"));
-(document.head || document.documentElement).appendChild(injectReduxScript);
+if (!(document.documentElement instanceof SVGElement)) {
+  const injectReduxScript = document.createElement("script");
+  injectReduxScript.append(document.createTextNode("(" + injectRedux + ")()"));
+  (document.head || document.documentElement).appendChild(injectReduxScript);
+}

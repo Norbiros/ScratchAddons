@@ -17,6 +17,9 @@
   "changelog": {
     "message": "View changelog"
   },
+  "notifChangelog": {
+    "message": "View Changelog"
+  },
   "15min": {
     "message": "For 15 minutes"
   },
@@ -41,8 +44,17 @@
   "recommended": {
     "message": "Recommended"
   },
+  "featured": {
+    "message": "Featured"
+  },
   "beta": {
     "message": "Beta"
+  },
+  "danger": {
+    "message": "Dangerous"
+  },
+  "dangerWarning": {
+    "message": "Are you sure you want to enable the \"$1\" addon?"
   },
   "forums": {
     "message": "Forums"
@@ -71,11 +83,35 @@
   "editorFeatures": {
     "message": "Scratch Editor Features"
   },
+  "costumeEditorFeatures": {
+    "message": "Costume Editor"
+  },
+  "codeEditorFeatures": {
+    "message": "Code Editor"
+  },
   "websiteFeatures": {
     "message": "Scratch Website Features"
   },
+  "profilesFeatures": {
+    "message": "Profiles"
+  },
+  "projectPlayerFeatures": {
+    "message": "Project Player"
+  },
+  "projectPageFeatures": {
+    "message": "Project Pages"
+  },
+  "others": {
+    "message": "Others"
+  },
   "themes": {
     "message": "Themes"
+  },
+  "editorThemes": {
+    "message": "Editor Themes"
+  },
+  "websiteThemes": {
+    "message": "Website Themes"
   },
   "popupFeatures": {
     "message": "Extension Popup Features"
@@ -116,6 +152,9 @@
   "presets": {
     "message": "Presets"
   },
+  "preview": {
+    "message": "Preview"
+  },
   "scratchAddonsTheme": {
     "message": "Scratch Addons theme"
   },
@@ -143,6 +182,9 @@
   "recommendedTooltip": {
     "message": "This is recommended by Scratch Addons. Try it out!"
   },
+  "dangerTooltip": {
+    "message": "Use with caution. Make sure to understand what this addon does before enabling."
+  },
   "betaTooltip": {
     "message": "Keep in mind that this addon might have bugs."
   },
@@ -156,7 +198,7 @@
     "message": "Message added by the Scratch Addons extension: make sure the bug you're about to report still happens when all browser extensions are disabled, including Scratch Addons. If you believe a bug is caused by Scratch Addons, please $1."
   },
   "forumWarningGeneral": {
-    "message": "Message from Scratch Addons extension: Scratch policy forbids discussion about browser extensions, including Scratch Addons. Do not advertise Scratch Addons or any of its features. If you found bugs, please $1."
+    "message": "Message from Scratch Addons extension: Scratch policy forbids discussion about browser extensions, including Scratch Addons. Do not advertise Scratch Addons or any of its features. If you found a bug, please $1."
   },
   "search": {
     "message": "Search"
@@ -197,26 +239,41 @@
   "extensionHasUpdated": {
     "message": "Scratch Addons has updated to v$1"
   },
-  "extensionUpdateInfo1": {
-    "message": "$1: $2 was remade and is now deeply customizable. Go to $3 to change specific colors, toggle dark comments and scollbars, and more!"
-  },
-  "newFeature": {
-    "message": "New feature"
-  },
-  "newFeatureName": {
-    "message": "\"editor dark mode\""
+  "extensionUpdateInfo1_v1_25": {
+    "message": "New addon: \"color picker inputs\", which allows setting an exact value (0-100) for each slider in the costume editor color picker. Go to $1 to enable it."
   },
   "scratchAddonsSettings": {
     "message": "Scratch Addons settings"
   },
-  "extensionUpdateInfo2": {
-    "message": "Featured new addons this update are \"custom scripts area zoom settings\", \"wrap text of list items\" and \"change new sprite default position\"."
+  "extensionUpdateInfo2_v1_25": {
+    "message": "Other new addons added this update are \"horizontal tabs on My Stuff\" and \"live forum post preview\"."
   },
   "notAffiliated": {
     "message": "Scratch Addons is not affiliated with Scratch."
   },
   "new": {
-    "message": "New!"
+    "message": "New!",
+    "description": "Tag for addons. Singular."
+  },
+  "updated": {
+    "message": "New features",
+    "description": "Tag for addons with new features. Singular."
+  },
+  "updatedWithSettings": {
+    "message": "New settings",
+    "description": "Tag for addons with new settings. Singular."
+  },
+  "newGroup": {
+    "message": "Other new addons and updates",
+    "description": "Used as a category name for new addons and updates"
+  },
+  "featuredNew": {
+    "message": "Featured new addons and updates",
+    "description": "Used as a category name for featured new addons and updates"
+  },
+  "enabled": {
+    "message": "Enabled",
+    "description": "Used as a category name for enabled addons"
   },
   "exportAndImportSettings": {
     "message": "Export and Import Settings"
@@ -232,6 +289,9 @@
   },
   "import": {
     "message": "Import Settings"
+  },
+  "viewSettings": {
+    "message": "View settings file"
   },
   "fileNotSelected": {
     "message": "Please select a settings file."
@@ -249,7 +309,11 @@
     "message": "Addons"
   },
   "runningOnThisPage": {
-    "message": "Addons currently running on this tab:"
+    "message": "Addons on this tab"
+  },
+  "recentlyUsed": {
+    "message": "Recently used",
+    "description": "Used as a category name for recently used addons"
   },
   "settingsPagePermission": {
     "message": "To enable the \"$1\" addon, go to the full screen settings page."
@@ -259,6 +323,25 @@
   },
   "skipOpenFullSettings": {
     "message": "Cancel"
+  },
+  "exploreAllAddons": {
+    "message": "Explore all $1 addons:",
+    "description": "Placeholder is a number. Example: explore all 80+ addons"
+  },
+  "searchNotFound": {
+    "message": "No results found. Perhaps try different keywords?"
+  },
+  "captureCommentError": {
+    "message": "Message added by Scratch Addons: it appears that your comment doesn't follow $1, which asks Scratchers not to advertise or name browser extensions. This comment wasn't posted because it will probably result in your account getting muted from commenting for 5 minutes."
+  },
+  "captureCommentPolicy": {
+    "message": "Scratch Community's Browser Extension/Userscript Policy"
+  },
+  "captureCommentPostAnyway": {
+    "message": "Post anyway"
+  },
+  "captureCommentConfirm": {
+    "message": "Are you sure you want to post this comment? Scratch will probably mute your account from commenting anywhere on Scratch for at least 5 minutes."
   },
   "extensionStoreDescription1": {
     "message": "➖ scratch.mit.edu features ➖\n- Messaging: click the extension icon to get a summary of your messages.\n- Cloud games: see who's playing multiplayer games.\n- Notifier: get browser notifications when you get new messages.\n- Navigation bar customization: re-add the “discuss” button.\n- Make 2.0-styled pages look like 3.0.\n- Website and editor dark modes.\n- And more!"

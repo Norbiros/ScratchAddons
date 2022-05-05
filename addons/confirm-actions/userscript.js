@@ -1,22 +1,33 @@
 export default async function ({ addon, console, msg }) {
-  actionAlert("projectsharing", "[class*='share-button_share-button'], .banner-button", msg("share"));
-  actionAlert("followinguser", "#profile-data .follow-button", msg("follow"));
-  actionAlert("joiningstudio", "a.accept", msg("joinstudio"));
-  async function actionAlert(setting, queryButton, res) {
-    while (true) {
-      let button = await addon.tab.waitForElement(queryButton, { markAsSeen: true });
-      let canAction = false;
-      button.addEventListener("click", function (e) {
-        if (addon.self.disabled || !addon.settings.get(setting)) return;
-        if (!canAction) {
-          e.cancelBubble = true;
+  document.addEventListener(
+    "click",
+    (e) => {
+      let cancelMessage = null;
+      if (
+        addon.settings.get("projectsharing") &&
+        e.target.closest("[class*='share-button_share-button']:not([class*='is-shared']), .banner-button")
+      ) {
+        cancelMessage = msg("share");
+      } else if (addon.settings.get("projectunsharing") && e.target.closest(".media-stats a.unshare")) {
+        cancelMessage = msg("unshare");
+      } else if (addon.settings.get("followinguser") && e.target.closest("#profile-data .follow-button")) {
+        cancelMessage = msg("follow");
+      } else if (
+        /^\/studios\/\d+\/curators/g.test(location.pathname) &&
+        addon.settings.get("joiningstudio") &&
+        e.target.closest("button.studio-invitation-button")
+      ) {
+        cancelMessage = msg("joinstudio");
+      } else if (addon.settings.get("closingtopic") && e.target.closest("dd form button")) {
+        cancelMessage = msg("closetopic");
+      }
+      if (cancelMessage !== null) {
+        if (!confirm(cancelMessage)) {
           e.preventDefault();
-          if (confirm(res)) {
-            canAction = true;
-            button.click();
-          }
-        } else canAction = false;
-      });
-    }
-  }
+          e.stopPropagation();
+        }
+      }
+    },
+    true
+  );
 }

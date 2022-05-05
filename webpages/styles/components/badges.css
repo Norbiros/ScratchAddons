@@ -1,11 +1,20 @@
 .badge {
   background: gray;
-  color: #fff;
+  color: var(--white-text);
   border-radius: 4px;
   padding: 2px 5px;
   font-size: 12px;
-  margin-left: 10px;
+  font-weight: 500;
+  margin-inline-start: 10px;
   border-bottom: 2px solid #111;
+  white-space: nowrap;
+}
+.addon-update .badge.purple {
+  margin-inline-start: 0;
+  margin-inline-end: 10px;
+}
+.badge .tooltiptext {
+  white-space: normal;
 }
 
 .badge.blue {
@@ -25,6 +34,10 @@
 .badge.red {
   background: #fd662b;
   border-color: #d84a12;
+}
+.badge.darkred {
+  background: #fd2b2b;
+  border-color: #d81212;
 }
 .badge.darkgreen {
   background: #00b1a8;

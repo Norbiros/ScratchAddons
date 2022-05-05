@@ -1,4 +1,4 @@
-import downloadBlob from "../../libraries/download-blob.js";
+import downloadBlob from "../../libraries/common/cs/download-blob.js";
 
 export default async ({ addon, console, msg }) => {
   let recordElem;
@@ -13,6 +13,7 @@ export default async ({ addon, console, msg }) => {
   while (true) {
     const elem = await addon.tab.waitForElement('div[class*="menu-bar_file-group"] > div:last-child:not(.sa-record)', {
       markAsSeen: true,
+      reduxEvents: ["scratch-gui/mode/SET_PLAYER", "fontsLoaded/SET_FONTS_LOADED", "scratch-gui/locales/SELECT_LOCALE"],
     });
     const getOptions = () => {
       const recordOption = Object.assign(document.createElement("div"), {
@@ -20,6 +21,7 @@ export default async ({ addon, console, msg }) => {
       });
       const recordOptionPopup = Object.assign(document.createElement("div"), {
         className: addon.tab.scratchClass("modal_modal-content", { others: "mediaRecorderPopup" }),
+        dir: addon.tab.direction,
       });
       const recordOptionHeader = Object.assign(document.createElement("div"), {
         className: addon.tab.scratchClass("modal_header"),
@@ -60,6 +62,24 @@ export default async ({ addon, console, msg }) => {
       recordOptionSeconds.appendChild(recordOptionSecondsLabel);
       recordOptionSeconds.appendChild(recordOptionSecondsInput);
       recordOptionInner.appendChild(recordOptionSeconds);
+
+      // Delay
+      const recordOptionDelay = document.createElement("p");
+      const recordOptionDelayInput = Object.assign(document.createElement("input"), {
+        type: "number",
+        min: 0,
+        max: 300,
+        defaultValue: 0,
+        id: "recordOptionDelayInput",
+        className: addon.tab.scratchClass("prompt_variable-name-text-input"),
+      });
+      const recordOptionDelayLabel = Object.assign(document.createElement("label"), {
+        htmlFor: "recordOptionDelayInput",
+        textContent: msg("start-delay"),
+      });
+      recordOptionDelay.appendChild(recordOptionDelayLabel);
+      recordOptionDelay.appendChild(recordOptionDelayInput);
+      recordOptionInner.appendChild(recordOptionDelay);
 
       // Audio
       const recordOptionAudio = document.createElement("p");
@@ -170,6 +190,7 @@ export default async ({ addon, console, msg }) => {
         () =>
           handleOptionClose({
             secs: Number(recordOptionSecondsInput.value),
+            delay: Number(recordOptionDelayInput.value),
             audioEnabled: recordOptionAudioInput.checked,
             micEnabled: recordOptionMicInput.checked,
             waitUntilFlag: recordOptionFlagInput.checked,
@@ -261,7 +282,6 @@ export default async ({ addon, console, msg }) => {
           throw e;
         }
       }
-      recordElem.textContent = msg("stop");
       isWaitingForFlag = false;
       waitingForFlagFunc = abortController = null;
       const stream = new MediaStream();
@@ -296,7 +316,19 @@ export default async ({ addon, console, msg }) => {
         stopSignFunc = () => stopRecording();
         vm.runtime.once("PROJECT_STOP_ALL", stopSignFunc);
       }
-      recorder.start(1000);
+
+      // Delay
+      const delay = opts.delay || 0;
+      const roundedDelay = Math.floor(delay);
+      for (let index = 0; index < roundedDelay; index++) {
+        recordElem.textContent = msg("starting-in", { secs: roundedDelay - index });
+        await new Promise((resolve) => setTimeout(resolve, 975));
+      }
+      setTimeout(() => {
+        recordElem.textContent = msg("stop");
+
+        recorder.start(1000);
+      }, (delay - roundedDelay) * 1000);
     };
     if (!recordElem) {
       recordElem = Object.assign(document.createElement("div"), {

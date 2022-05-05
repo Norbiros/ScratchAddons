@@ -1,5 +1,5 @@
-import { normalizeHex, getHexRegex } from "../../libraries/normalize-color.js";
-import RateLimiter from "../../libraries/rate-limiter.js";
+import { normalizeHex, getHexRegex } from "../../libraries/common/cs/normalize-color.js";
+import RateLimiter from "../../libraries/common/cs/rate-limiter.js";
 
 export default async ({ addon, console, msg }) => {
   let prevEventHandler;
@@ -13,7 +13,7 @@ export default async ({ addon, console, msg }) => {
     } else if (state.scratchPaint.modals.strokeColor) {
       fillOrStroke = "stroke";
     } else {
-      fillOrStroke = "ihadastroke";
+      // fillOrStroke = "ihadastroke";
       return;
     }
     const colorType = state.scratchPaint.fillMode.colorIndex;
@@ -45,9 +45,16 @@ export default async ({ addon, console, msg }) => {
     element.children[1].children[0].click();
   };
   while (true) {
-    const element = await addon.tab.waitForElement('div[class*="color-picker_swatch-row"]', { markAsSeen: true });
+    const element = await addon.tab.waitForElement('div[class*="color-picker_swatch-row"]', {
+      markAsSeen: true,
+      reduxCondition: (state) => state.scratchGui.editorTab.activeTabIndex === 1 && !state.scratchGui.mode.isPlayerOnly,
+    });
     rateLimiter.abort(false);
     addon.tab.redux.initialize();
+    if (!("colorIndex" in addon.tab.redux.state.scratchPaint.fillMode)) {
+      console.error("Detected new paint editor; this will be supported in future versions.");
+      return;
+    }
     if (addon.tab.redux && typeof prevEventHandler === "function") {
       addon.tab.redux.removeEventListener("statechanged", prevEventHandler);
       prevEventHandler = null;
@@ -57,6 +64,7 @@ export default async ({ addon, console, msg }) => {
     const saColorPicker = Object.assign(document.createElement("div"), {
       className: "sa-color-picker sa-color-picker-paint",
     });
+    addon.tab.displayNoneWhileDisabled(saColorPicker, { display: "flex" });
     const saColorPickerColor = Object.assign(document.createElement("input"), {
       className: "sa-color-picker-color sa-color-picker-paint-color",
       type: "color",

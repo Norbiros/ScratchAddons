@@ -24,28 +24,6 @@ export default async function ({ addon, global, console, msg }) {
 
   manager.appendChild(searchBox);
 
-  /* begin feedback button stuff (remove when out of beta)
-
-  const feedbackWrapper = document.createElement("span");
-  feedbackWrapper.className = "sa-var-manager-feedback";
-
-  const feedbackDesc = document.createElement("span");
-  feedbackDesc.className = "sa-var-manager-feedback-description";
-  feedbackDesc.innerText = msg("feedback-description");
-
-  const feedbackButton = document.createElement("a");
-  feedbackButton.className = "sa-var-manager-feedback-button";
-  feedbackButton.innerText = msg("feedback");
-  feedbackButton.href = "https://scratchaddons.com/feedback?version=variable-manager";
-  feedbackButton.target = "_blank";
-  feedbackButton.rel = "noopener noreferrer";
-
-  feedbackWrapper.appendChild(feedbackDesc);
-  feedbackWrapper.appendChild(feedbackButton);
-  manager.appendChild(feedbackWrapper);
-
-  // end feedback button stuff */
-
   const localVars = document.createElement("div");
   const localHeading = document.createElement("span");
   const localList = document.createElement("table");
@@ -66,8 +44,10 @@ export default async function ({ addon, global, console, msg }) {
   manager.appendChild(globalVars);
 
   const varTab = document.createElement("li");
+  addon.tab.displayNoneWhileDisabled(varTab, { display: "flex" });
   varTab.classList.add(addon.tab.scratchClass("react-tabs_react-tabs__tab"), addon.tab.scratchClass("gui_tab"));
-  varTab.id = "react-tabs-7";
+  // Cannot use number due to conflict after leaving and re-entering editor
+  varTab.id = "react-tabs-sa-variable-manager";
 
   const varTabIcon = document.createElement("img");
   varTabIcon.draggable = false;
@@ -242,7 +222,7 @@ export default async function ({ addon, global, console, msg }) {
   }
 
   function fullReload() {
-    if (addon.tab.redux.state.scratchGui.editorTab.activeTabIndex !== 3 || preventUpdate) return;
+    if (addon.tab.redux.state?.scratchGui?.editorTab?.activeTabIndex !== 3 || preventUpdate) return;
 
     const editingTarget = vm.runtime.getEditingTarget();
     const stage = vm.runtime.getTargetForStage();
@@ -275,7 +255,7 @@ export default async function ({ addon, global, console, msg }) {
   }
 
   function quickReload() {
-    if (addon.tab.redux.state.scratchGui.editorTab.activeTabIndex !== 3 || preventUpdate) return;
+    if (addon.tab.redux.state?.scratchGui?.editorTab?.activeTabIndex !== 3 || preventUpdate) return;
 
     for (const variable of localVariables) {
       variable.updateValue();
@@ -325,21 +305,44 @@ export default async function ({ addon, global, console, msg }) {
     }
   });
 
-  vm.runtime.on("PROJECT_LOADED", () => fullReload());
-  vm.runtime.on("TOOLBOX_EXTENSIONS_NEED_UPDATE", () => fullReload());
+  vm.runtime.on("PROJECT_LOADED", () => {
+    try {
+      fullReload();
+    } catch (e) {
+      console.error(e);
+    }
+  });
+  vm.runtime.on("TOOLBOX_EXTENSIONS_NEED_UPDATE", () => {
+    try {
+      fullReload();
+    } catch (e) {
+      console.error(e);
+    }
+  });
 
-  const oldStep = vm.runtime.constructor.prototype._step;
-  vm.runtime.constructor.prototype._step = function (...args) {
+  const oldStep = vm.runtime._step;
+  vm.runtime._step = function (...args) {
     const ret = oldStep.call(this, ...args);
-    quickReload();
+    try {
+      quickReload();
+    } catch (e) {
+      console.error(e);
+    }
     return ret;
   };
 
+  addon.self.addEventListener("disabled", () => {
+    if (addon.tab.redux.state.scratchGui.editorTab.activeTabIndex === 3) {
+      addon.tab.redux.dispatch({ type: "scratch-gui/navigation/ACTIVATE_TAB", activeTabIndex: 2 });
+    }
+  });
+
   while (true) {
-    const tabs = await addon.tab.waitForElement("[class^='react-tabs_react-tabs__tab-list']", {
+    await addon.tab.waitForElement("[class^='react-tabs_react-tabs__tab-list']", {
       markAsSeen: true,
+      reduxEvents: ["scratch-gui/mode/SET_PLAYER", "fontsLoaded/SET_FONTS_LOADED", "scratch-gui/locales/SELECT_LOCALE"],
+      reduxCondition: (state) => !state.scratchGui.mode.isPlayerOnly,
     });
-    const soundTab = tabs.children[2];
-    soundTab.insertAdjacentElement("afterend", varTab);
+    addon.tab.appendToSharedSpace({ space: "afterSoundTab", element: varTab, order: 3 });
   }
 }

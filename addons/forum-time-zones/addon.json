@@ -1,6 +1,6 @@
 {
-  "name": "Forums time zone",
-  "description": "Converts the post times to the client's time zone.",
+  "name": "Local timezone on forums",
+  "description": "Uses your local time zone for displaying post dates and times on the forums.",
   "userscripts": [
     {
       "url": "userscript.js",
@@ -8,8 +8,7 @@
       "runAtComplete": false
     }
   ],
-  "tags": ["forums", "community", "beta"],
-  "enabledByDefault": false,
-  "libraries": ["moment"],
-  "l10n": true
+  "versionAdded": "1.0.0",
+  "tags": ["forums", "community"],
+  "enabledByDefault": false
 }

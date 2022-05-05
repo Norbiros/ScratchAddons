@@ -1,6 +1,6 @@
 {
   "name": "Data category tweaks",
-  "description": "Provides tweaks for the Data (\"Variables\") category in the editor.",
+  "description": "Provides tweaks for the Data (\"Variables\") block category.",
   "credits": [
     {
       "name": "GarboMuffin"
@@ -9,10 +9,11 @@
   "userscripts": [
     {
       "url": "userscript.js",
-      "matches": ["https://scratch.mit.edu/projects/*"],
+      "matches": ["projects"],
       "runAtComplete": false
     }
   ],
+  "versionAdded": "1.7.0",
   "settings": [
     {
       "name": "Separate List Category",
@@ -33,7 +34,6 @@
       "default": false
     }
   ],
-  "tags": ["editor", "recommended"],
-  "enabledByDefault": false,
-  "l10n": true
+  "tags": ["editor", "codeEditor", "recommended"],
+  "enabledByDefault": false
 }

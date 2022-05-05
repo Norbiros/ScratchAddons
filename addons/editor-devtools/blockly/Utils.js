@@ -6,6 +6,9 @@ import BlockFlasher from "./BlockFlasher.js";
 export default class Utils {
   constructor(addon) {
     this.addon = addon;
+    this.addon.tab.traps.getBlockly().then((blockly) => {
+      this.blockly = blockly;
+    });
     /**
      * Scratch Virtual Machine
      * @type {null|*}
@@ -56,9 +59,8 @@ export default class Utils {
   /**
    * Based on wksp.centerOnBlock(li.data.labelID);
    * @param blockOrId {Blockly.Block|{id}|BlockInstance} A Blockly Block, a block id, or a BlockInstance
-   * @param [force] {boolean} if true, the view always moves, otherwise only move if the selected element is not entirely visible
    */
-  scrollBlockIntoView(blockOrId, force) {
+  scrollBlockIntoView(blockOrId) {
     let workspace = this.getWorkspace();
     /** @type {Blockly.Block} */
     let block; // or is it really a Blockly.BlockSvg?
@@ -83,16 +85,11 @@ export default class Utils {
     let base = this.getTopOfStackFor(block);
     let ePos = base.getRelativeToSurfaceXY(), // Align with the top of the block
       rPos = root.getRelativeToSurfaceXY(), // Align with the left of the block 'stack'
-      eSiz = block.getHeightWidth(),
       scale = workspace.scale,
-      // x = (ePos.x + (workspace.RTL ? -1 : 1) * eSiz.width / 2) * scale,
       x = rPos.x * scale,
       y = ePos.y * scale,
       xx = block.width + x, // Turns out they have their x & y stored locally, and they are the actual size rather than scaled or including children...
       yy = block.height + y,
-      // xx = eSiz.width * scale + x,
-      // yy = eSiz.height * scale + y,
-
       s = workspace.getMetrics();
     if (
       x < s.viewLeft + this.offsetX - 4 ||
@@ -111,6 +108,7 @@ export default class Utils {
       workspace.scrollbar.set(sx, sy);
       this.navigationHistory.storeView({ left: sx, top: sy }, 64);
     }
+    this.blockly?.hideChaff();
     BlockFlasher.flash(block);
   }
 

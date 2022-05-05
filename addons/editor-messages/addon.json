@@ -1,6 +1,6 @@
 {
   "name": "Messages in editor",
-  "description": "Displays your message count in the editor.",
+  "description": "Displays your message count in the editor menu bar.",
   "credits": [
     {
       "name": "TheColaber"
@@ -9,16 +9,16 @@
   "userscripts": [
     {
       "url": "userscript.js",
-      "matches": ["https://scratch.mit.edu/projects/*"]
+      "matches": ["projects"]
     }
   ],
   "userstyles": [
     {
       "url": "userstyle.css",
-      "matches": ["https://scratch.mit.edu/projects/*"]
+      "matches": ["projects"]
     }
   ],
-  "tags": ["editor"],
-  "enabledByDefault": false,
-  "l10n": true
+  "versionAdded": "1.4.0",
+  "tags": ["editor", "editorMenuBar", "recommended"],
+  "enabledByDefault": false
 }

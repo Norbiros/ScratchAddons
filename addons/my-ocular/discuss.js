@@ -1,33 +1,41 @@
 export default async function ({ addon, global, console, msg }) {
-  var lefts = document.querySelectorAll("div.postleft > dl");
-  lefts.forEach(async (i) => {
-    var username = i.children[0].innerText;
+  let posts = document.querySelectorAll(".blockpost");
+  let cache = Object.create(null);
 
-    var response = await fetch(`https://my-ocular.jeffalo.net/api/user/${username}`);
-    var data = await response.json();
-    var userStatus = data.status;
-    var color = data.color;
+  posts.forEach(async (i) => {
+    let username = i.querySelector(".username").innerText;
+
+    let left = i.querySelector(".postleft").children[0];
+
+    const { userStatus, color } = await (cache[username] || (cache[username] = fetchStatus(username)));
 
     if (userStatus) {
-      var br = document.createElement("br");
-      var status = document.createElement("i");
+      let br = document.createElement("br");
+      addon.tab.displayNoneWhileDisabled(br);
+      let status = document.createElement("i");
+      addon.tab.displayNoneWhileDisabled(status);
       status.title = msg("status-hover");
       status.innerText = userStatus;
 
-      var dot = document.createElement("span");
+      let dot = document.createElement("span");
+      addon.tab.displayNoneWhileDisabled(dot, { display: "inline-block" });
       dot.title = msg("status-hover");
-      dot.style.height = "10px";
-      dot.style.width = "10px";
-      dot.style.marginLeft = "5px";
-      dot.style.backgroundColor = "#bbb"; //default incase bad
-      dot.style.borderRadius = "50%";
-      dot.style.display = "inline-block";
+      dot.className = "my-ocular-dot";
 
       dot.style.backgroundColor = color;
 
-      i.appendChild(br);
-      i.appendChild(status);
-      i.appendChild(dot);
+      left.appendChild(br);
+      left.appendChild(status);
+      if (color) left.appendChild(dot);
     }
   });
+
+  async function fetchStatus(username) {
+    const response = await fetch(`https://my-ocular.jeffalo.net/api/user/${username}`);
+    const data = await response.json();
+    return {
+      userStatus: data.status,
+      color: data.color,
+    };
+  }
 }

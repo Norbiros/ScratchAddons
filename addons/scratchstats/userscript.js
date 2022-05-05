@@ -20,6 +20,7 @@ export default async function ({ addon, msg, console }) {
   if (!commentBox) return;
   const statsBox = document.createElement("div");
   content.insertBefore(statsBox, commentBox);
+  addon.tab.displayNoneWhileDisabled(statsBox, { display: "block" });
   statsBox.className = "box sa-stats slider-carousel-container";
   const statsHeader = document.createElement("div");
   statsBox.appendChild(statsHeader);
@@ -58,7 +59,7 @@ export default async function ({ addon, msg, console }) {
       );
       ranksRow.appendChild(
         createItem(
-          `#${data.statistics.ranks.loves.toLocaleString()} (#${data.statistics.ranks.country.loves})`,
+          `#${data.statistics.ranks.loves.toLocaleString()} (#${data.statistics.ranks.country.loves.toLocaleString()})`,
           msg("most-loves")
         )
       );
@@ -78,19 +79,21 @@ export default async function ({ addon, msg, console }) {
         .then(async function (response) {
           const historyData = await response.json();
           historyData.pop();
-          await addon.tab.loadScript(addon.self.lib + "/Chart.min.js");
+          await addon.tab.loadScript(addon.self.lib + "/thirdparty/cs/chart.min.js");
           const canvasContainer = document.createElement("div");
           stats.appendChild(canvasContainer);
           canvasContainer.style.position = "relative";
           canvasContainer.style.height = "400px";
           const canvas = document.createElement("canvas");
           canvasContainer.appendChild(canvas);
+          const stepAvg = historyData.reduce((acc, cur) => acc + cur.value / historyData.length, 0);
+          const stepLog = Math.log10(stepAvg);
+          const stepSize = Math.pow(10, Math.max(Math.round(stepLog) - 1, 1));
           new Chart(canvas, {
             type: "scatter",
             data: {
               datasets: [
                 {
-                  label: msg("followers-label"),
                   data: historyData.map((item) => {
                     return { x: Date.parse(item.date), y: item.value };
                   }),
@@ -104,22 +107,30 @@ export default async function ({ addon, msg, console }) {
             options: {
               responsive: true,
               maintainAspectRatio: false,
-              title: {
-                display: true,
-                text: msg("followers-title"),
-              },
               scales: {
-                xAxes: [
-                  {
-                    ticks: {
-                      callback: (x) => new Date(x).toDateString(),
-                    },
+                x: {
+                  ticks: {
+                    callback: (x) => new Date(x).toDateString(),
                   },
-                ],
+                },
+                y: {
+                  ticks: {
+                    stepSize,
+                  },
+                },
               },
-              tooltips: {
-                callbacks: {
-                  label: (item) => `${new Date(parseInt(item.label)).toDateString()}: ${item.value}`,
+              plugins: {
+                title: {
+                  display: true,
+                  text: msg("followers-title"),
+                },
+                tooltip: {
+                  callbacks: {
+                    label: (context) => `${new Date(Number(context.raw.x)).toDateString()}: ${context.parsed.y}`,
+                  },
+                },
+                legend: {
+                  display: false,
                 },
               },
             },
