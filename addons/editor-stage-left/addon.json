@@ -27,9 +27,8 @@
     {
       "url": "fullscreen-on-left.css",
       "matches": ["projects"],
-      "settingMatch": {
-        "id": "fullscreenOnLeft",
-        "value": true
+      "if": {
+        "settings": { "fullscreenOnLeft": true }
       }
     }
   ],
