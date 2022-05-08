@@ -71,27 +71,42 @@ export default class DevTools {
 
     this.addon.tab.createBlockContextMenu(
       (items, block) => {
-        items.push({
-          enabled: blockly.clipboardXml_,
-          text: this.m("paste"),
-          separator: true,
-          _isDevtoolsFirstItem: true,
-          callback: () => {
-            let ids = this.getTopBlockIDs();
+        items.push(
+          {
+            enabled: blockly.clipboardXml_,
+            text: this.m("paste"),
+            separator: true,
+            _isDevtoolsFirstItem: true,
+            callback: () => {
+              let ids = this.getTopBlockIDs();
 
-            document.dispatchEvent(
-              new KeyboardEvent("keydown", {
-                keyCode: 86,
-                ctrlKey: true,
-                griff: true,
-              })
-            );
-
-            setTimeout(() => {
-              this.beginDragOfNewBlocksNotInIDs(ids);
-            }, 10);
+              document.dispatchEvent(
+                new KeyboardEvent("keydown", {
+                  keyCode: 86,
+                  ctrlKey: true,
+                  griff: true,
+                })
+              );
+ 
+              setTimeout(() => {
+                this.beginDragOfNewBlocksNotInIDs(ids);
+              }, 10);
+            },
           },
-        });
+          {
+            enabled: true,
+            text: this.m("make-space-everywhere"),
+            callback: () => {
+              let wm = this.addon.tab.traps.vm;
+              var current = wm.runtime.getEditingTarget().id;
+              for (let i = 0; i < this.vm.runtime.targets.length; i++) {
+                  var element = wm.runtime.targets[i];
+                  wm.setEditingTarget(element.id);
+                  self.doCleanUp();
+              };
+            },
+          },
+        );
         return items;
       },
       { workspace: true }
