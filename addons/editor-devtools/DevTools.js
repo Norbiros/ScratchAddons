@@ -87,7 +87,7 @@ export default class DevTools {
                   griff: true,
                 })
               );
- 
+
               setTimeout(() => {
                 this.beginDragOfNewBlocksNotInIDs(ids);
               }, 10);
@@ -100,12 +100,12 @@ export default class DevTools {
               let wm = this.addon.tab.traps.vm;
               var current = wm.runtime.getEditingTarget().id;
               for (let i = 0; i < this.vm.runtime.targets.length; i++) {
-                  var element = wm.runtime.targets[i];
-                  wm.setEditingTarget(element.id);
-                  self.doCleanUp();
-              };
+                var element = wm.runtime.targets[i];
+                wm.setEditingTarget(element.id);
+                self.doCleanUp();
+              }
             },
-          },
+          }
         );
         return items;
       },
