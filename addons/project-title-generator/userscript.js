@@ -1,8 +1,16 @@
-import ADJECTIVES from "./data/adjectives.js";
-import NOUNS from "./data/nouns.js";
-
 export default async function ({ addon, global, console, msg }) {
   let pendingReplacement = false;
+  
+  let ADJECTIVES;
+  let NOUNS;
+  
+  try {
+    ADJECTIVES = (await import("./data/" + addon.auth.scratchLang + "/adjectives.js")).default;
+    NOUNS = (await import("./data/" + addon.auth.scratchLang + "/nouns.js")).default;
+  } catch (error) {
+    ADJECTIVES = (await import("./data/en/adjectives.js")).default;
+    NOUNS = (await import("./data/en/nouns.js")).default;
+  }
 
   let reduxAvailable = Boolean(addon.tab.redux.state);
   while (!reduxAvailable) {
@@ -13,6 +21,7 @@ export default async function ({ addon, global, console, msg }) {
       }, 0);
     });
   }
+  
 
   addon.tab.redux.initialize();
   let isFileUpload = false;
@@ -57,6 +66,17 @@ export default async function ({ addon, global, console, msg }) {
       let showButton = await shouldButtonShow();
       if (showButton) createButton();
       else removeButton();
+    }
+  });
+  addon.tab.redux.addEventListener("statechanged", async (e) => {
+    if (e.detail.action.type === "scratch-gui/locales/SELECT_LOCALE") {
+      try {
+        ADJECTIVES = (await import("./data/" + e.detail.action.locale + "/adjectives.js")).default;
+        NOUNS = (await import("./data/" + e.detail.action.locale + "/nouns.js")).default;
+      } catch (error) {
+        ADJECTIVES = (await import("./data/en/adjectives.js")).default;
+        NOUNS = (await import("./data/en/nouns.js")).default;
+      }
     }
   });
   addon.tab.addEventListener("urlChange", () => {
