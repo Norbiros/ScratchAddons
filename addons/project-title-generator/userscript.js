@@ -1,9 +1,9 @@
 export default async function ({ addon, global, console, msg }) {
   let pendingReplacement = false;
-  
+
   let ADJECTIVES;
   let NOUNS;
-  
+
   try {
     ADJECTIVES = (await import("./data/" + addon.auth.scratchLang + "/adjectives.js")).default;
     NOUNS = (await import("./data/" + addon.auth.scratchLang + "/nouns.js")).default;
@@ -21,7 +21,6 @@ export default async function ({ addon, global, console, msg }) {
       }, 0);
     });
   }
-  
 
   addon.tab.redux.initialize();
   let isFileUpload = false;
