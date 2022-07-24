@@ -135,7 +135,6 @@ export default async function ({ addon, global, console, msg }) {
     //the chance of being the second adjective blank grows by the length of the first adjective
     let adj2 = randomAdj(Math.floor(100/adj1.length), adj1);
     
-    
     let noun1 = NOUNS[randi(NOUNS.length)];
     let newName = `${adj1} ${adj2} ${noun1}`;
     addon.tab.redux.dispatch({ type: "projectTitle/SET_PROJECT_TITLE", title: newName });
@@ -158,6 +157,7 @@ export default async function ({ addon, global, console, msg }) {
       return adj;
     }
   }
+  
   function randi(max) {
     return Math.floor(Math.random() * max);
   }
