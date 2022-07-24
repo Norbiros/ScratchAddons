@@ -3,13 +3,16 @@ export default async function ({ addon, global, console, msg }) {
 
   let ADJECTIVES;
   let NOUNS;
+  let FIRSTADJECTIVES;
 
   try {
-    ADJECTIVES = (await import("./data/" + addon.auth.scratchLang + "/adjectives.js")).default;
-    NOUNS = (await import("./data/" + addon.auth.scratchLang + "/nouns.js")).default;
+    ADJECTIVES = (await import("./data/" + addon.auth.scratchLang + ".js")).adjectives;
+    NOUNS = (await import("./data/" + addon.auth.scratchLang + ".js")).nouns;
+    FIRSTADJECTIVES = (await import("./data/" + addon.auth.scratchLang + ".js")).firstAdjectives;
   } catch (error) {
-    ADJECTIVES = (await import("./data/en/adjectives.js")).default;
-    NOUNS = (await import("./data/en/nouns.js")).default;
+    ADJECTIVES = (await import("./data/en.js")).adjectives;
+    NOUNS = (await import("./data/en.js")).nouns;
+    FIRSTADJECTIVES = (await import("./data/en.js")).firstAdjectives;
   }
 
   let reduxAvailable = Boolean(addon.tab.redux.state);
@@ -135,6 +138,9 @@ export default async function ({ addon, global, console, msg }) {
     let adj2 = ADJECTIVES[randi(ADJECTIVES.length)];
     let noun1 = NOUNS[randi(NOUNS.length)];
     let newName = `${adj1} ${adj2} ${noun1}`;
+    if (FIRSTADJECTIVES === false) {
+      newName = `${noun1} ${adj1} ${adj2}`;
+    }
     addon.tab.redux.dispatch({ type: "projectTitle/SET_PROJECT_TITLE", title: newName });
   }
 
