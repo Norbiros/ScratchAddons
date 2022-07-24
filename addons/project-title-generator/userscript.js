@@ -5,15 +5,7 @@ export default async function ({ addon, global, console, msg }) {
   let NOUNS;
   let FIRSTADJECTIVES;
 
-  try {
-    ADJECTIVES = (await import("./data/" + addon.auth.scratchLang + ".js")).adjectives;
-    NOUNS = (await import("./data/" + addon.auth.scratchLang + ".js")).nouns;
-    FIRSTADJECTIVES = (await import("./data/" + addon.auth.scratchLang + ".js")).firstAdjectives;
-  } catch (error) {
-    ADJECTIVES = (await import("./data/en.js")).adjectives;
-    NOUNS = (await import("./data/en.js")).nouns;
-    FIRSTADJECTIVES = (await import("./data/en.js")).firstAdjectives;
-  }
+  genWords(addon.auth.scratchLang);
 
   let reduxAvailable = Boolean(addon.tab.redux.state);
   while (!reduxAvailable) {
@@ -72,13 +64,7 @@ export default async function ({ addon, global, console, msg }) {
   });
   addon.tab.redux.addEventListener("statechanged", async (e) => {
     if (e.detail.action.type === "scratch-gui/locales/SELECT_LOCALE") {
-      try {
-        ADJECTIVES = (await import("./data/" + e.detail.action.locale + "/adjectives.js")).default;
-        NOUNS = (await import("./data/" + e.detail.action.locale + "/nouns.js")).default;
-      } catch (error) {
-        ADJECTIVES = (await import("./data/en/adjectives.js")).default;
-        NOUNS = (await import("./data/en/nouns.js")).default;
-      }
+      genWords(e.detail.action.locale);
     }
   });
   addon.tab.addEventListener("urlChange", () => {
@@ -146,5 +132,17 @@ export default async function ({ addon, global, console, msg }) {
 
   function randi(max) {
     return Math.floor(Math.random() * max);
+  }
+  
+  async function genWords(lang) {
+    try {
+      ADJECTIVES = (await import("./data/" + lang + ".js")).adjectives;
+      NOUNS = (await import("./data/" + lang + ".js")).nouns;
+      FIRSTADJECTIVES = (await import("./data/" + lang + ".js")).firstAdjectives;
+    } catch (error) {
+      ADJECTIVES = (await import("./data/en.js")).adjectives;
+      NOUNS = (await import("./data/en.js")).nouns;
+      FIRSTADJECTIVES = (await import("./data/en.js")).firstAdjectives;
+    }
   }
 }
