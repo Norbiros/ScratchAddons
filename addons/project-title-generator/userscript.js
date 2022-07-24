@@ -131,13 +131,33 @@ export default async function ({ addon, global, console, msg }) {
   }
 
   async function setProjectName() {
-    let adj1 = ADJECTIVES[randi(ADJECTIVES.length)];
-    let adj2 = ADJECTIVES[randi(ADJECTIVES.length)];
+    let adj1 = randomAdj();
+    //the chance of being the second adjective blank grows by the length of the first adjective
+    let adj2 = randomAdj(Math.floor(100/adj1.length), adj1);
+    
+    
     let noun1 = NOUNS[randi(NOUNS.length)];
     let newName = `${adj1} ${adj2} ${noun1}`;
     addon.tab.redux.dispatch({ type: "projectTitle/SET_PROJECT_TITLE", title: newName });
   }
 
+  function randomAdj(blankChance=30, prevAdj="") {
+    // console.log("1:" + JSON.stringify(blankChance))
+    if (randi(blankChance) < 2) {
+      //The adjective will be blank by some chance
+      return "";
+    } else {
+      let adj = ADJECTIVES[randi(ADJECTIVES.length)];
+      if (prevAdj !== "") { // if it's the second adjective
+        while (((prevAdj[0] !== adj[0]) && (randi(2) !== 1)) || (adj === prevAdj)) {
+          //if the first letter of the adjectives doesn't match there's some chance, a new one will be generated
+          //Or if the adjectives are the same, it will generates a new too
+          adj = ADJECTIVES[randi(ADJECTIVES.length)];
+        }
+      }
+      return adj;
+    }
+  }
   function randi(max) {
     return Math.floor(Math.random() * max);
   }
