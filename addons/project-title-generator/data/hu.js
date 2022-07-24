@@ -41,7 +41,7 @@ export let nouns = [
   "Tészták",
   "Burgonyák",
   "Gőzgombócok",
-  "Dobókocka",
+  "Dobókockák",
   "Csirkék",
   "Almák",
   "Delfinek",
