@@ -30,4 +30,4 @@ export default [
   "Papucsok",
   "Párnák",
   "Antilopok",
- ];
+];

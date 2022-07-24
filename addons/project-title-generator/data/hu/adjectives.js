@@ -31,4 +31,4 @@ export default [
   "Szúrkálódó",
   "Bohóckodó",
   "Kacérkodó",
- ];
+];
