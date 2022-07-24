@@ -133,7 +133,7 @@ export default async function ({ addon, global, console, msg }) {
   function randi(max) {
     return Math.floor(Math.random() * max);
   }
-  
+
   async function genWords(lang) {
     try {
       ADJECTIVES = (await import("./data/" + lang + ".js")).adjectives;
