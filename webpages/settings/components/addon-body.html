@@ -31,10 +31,10 @@
         <addon-tag tag="new"></addon-tag>
         {{ addon.latestUpdate.temporaryNotice }}
       </div>
-      <div class="see-also addon-message addon-info" style="display: block;" v-if="addon.seeAlso">
-        <b>{{ msg("seeAlso") }}</b><br>
+      <div class="see-also addon-message addon-info" style="display: block" v-if="addon.seeAlso">
+        <b>{{ msg("seeAlso") }}</b><br />
         <div v-for="seeAlso of addon.seeAlso">
-          <a href="#addon-{{ seeAlso.addon }}">{{ seeAlso.addonName }}</a> {{ seeAlso.description }}<br>
+          <a href="#addon-{{ seeAlso.addon }}">{{ seeAlso.addonName }}</a> {{ seeAlso.description }}<br />
         </div>
       </div>
       <div id="info" v-for="info of addon.info">
@@ -403,7 +403,7 @@
   [dir="rtl"] .switch[state="on"]::before {
     left: 5px;
   }
-  
+
   .see-also div {
     margin-left: 10px;
   }

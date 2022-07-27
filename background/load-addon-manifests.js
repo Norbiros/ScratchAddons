@@ -54,17 +54,21 @@ const localizeSettings = (addonId, setting, tableId) => {
     }
     let potentiallyNeedsMissingDynamicWarning =
       manifest.updateUserstylesOnSettingsChange && !(manifest.dynamicEnable && manifest.dynamicDisable);
-    
+
     if (manifest.seeAlso) {
       for (const seeAlso of manifest.seeAlso || []) {
         let tempManifest = await (await fetch(`/addons/${seeAlso.addon}/addon.json`)).json();
-        let tempDescription = scratchAddons.l10n.get(`${seeAlso.addon}/@description`, {}, tempManifest.description).split(".")[0];
+        let tempDescription = scratchAddons.l10n
+          .get(`${seeAlso.addon}/@description`, {}, tempManifest.description)
+          .split(".")[0];
         var tempDescriptionTenWords = tempDescription.split(" ").slice(0, 15).join(" ");
         seeAlso.addonName = scratchAddons.l10n.get(`${seeAlso.addon}/@name`, {}, tempManifest.name);
-        seeAlso.description = seeAlso.description ? seeAlso.description : tempDescriptionTenWords + (tempDescription.split(" ").length > 10 ? "..." : ".");
+        seeAlso.description = seeAlso.description
+          ? seeAlso.description
+          : tempDescriptionTenWords + (tempDescription.split(" ").length > 10 ? "..." : ".");
       }
     }
-    
+
     if (!useDefault) {
       manifest._english = {};
       for (const prop of ["name", "description"]) {
@@ -146,7 +150,7 @@ const localizeSettings = (addonId, setting, tableId) => {
         }
       }
     }
-      
+
     if (!useDefault) {
       manifest._english = {};
       for (const prop of ["name", "description"]) {
