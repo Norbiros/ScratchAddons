@@ -1,10 +1,10 @@
 {
   "name": "Move costume to top or bottom",
   "description": "Adds a right click context menu item to move a costume or a sound to the top or the bottom of the list.",
-  "info": [
+  "seeAlso": [
     {
-      "text": "This addon was previously part of the \"developer tools\" addon but has moved here.",
-      "id": "developer-tools"
+      "addon": "editor-devtools",
+      "description": "To add other great features to code editor."
     }
   ],
   "tags": ["editor", "costumeEditor", "featured"],

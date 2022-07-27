@@ -45,6 +45,15 @@ export default [
     customOrder: ["new", "updated"],
   },
   {
+    id: "forYou",
+    name: chrome.i18n.getMessage("forYou"),
+    addonIds: [],
+    expanded: true,
+    iframeShow: false,
+    fullscreenShow: true,
+    customOrder: ["recommended", "featured"],
+  },
+  {
     id: "enabled",
     name: chrome.i18n.getMessage("enabled"),
     addonIds: [],

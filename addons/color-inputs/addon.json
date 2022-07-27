@@ -7,6 +7,12 @@
       "link": "https://scratch.mit.edu/users/TheColaber/"
     }
   ],
+  "seeAlso": [
+    {
+      "addon": "color-picker",
+      "showInList": false
+    }
+  ],
   "versionAdded": "1.25.0",
   "tags": ["editor", "costumeEditor", "featured"],
   "userscripts": [

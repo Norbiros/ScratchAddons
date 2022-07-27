@@ -6,6 +6,12 @@
   "dynamicEnable": true,
   "dynamicDisable": true,
   "updateUserstylesOnSettingsChange": true,
+  "seeAlso": [
+    {
+      "addon": "remove-sprite-confirm",
+      "description": "To add confirmations when deleting sprite."
+    }
+  ],
   "settings": [
     {
       "name": "Sprites",

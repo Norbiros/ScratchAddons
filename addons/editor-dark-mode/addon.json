@@ -27,6 +27,12 @@
       "link": "https://github.com/GarboMuffin"
     }
   ],
+  "seeAlso": [
+    {
+      "addon": "dark-www",
+      "description": "To add dark mode to Scratch webpage."
+    }
+  ],
   "customCssVariables": [
     {
       "name": "page-text",

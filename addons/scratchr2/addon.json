@@ -8,6 +8,11 @@
       "link": "https://scratch.mit.edu/users/Maximouse/"
     }
   ],
+  "seeAlso": [
+    {
+      "addon": "editor-dark-mode"
+    }
+  ],
   "customCssVariables": [
     {
       "name": "defaultLinkIconFilter",

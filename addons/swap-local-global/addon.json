@@ -6,6 +6,13 @@
       "name": "GarboMuffin"
     }
   ],
+  "seeAlso": [
+    {
+      "addon": "variable-manager",
+      "description": "To futher manage variables.",
+      "showInList": false
+    }
+  ],
   "userscripts": [
     {
       "url": "userscript.js",

@@ -16,6 +16,16 @@
       "link": "https://scratch.mit.edu/users/GarboMuffin/"
     }
   ],
+  "seeAlso": [
+    {
+      "addon": "editor-theme3",
+      "description": "To customize color of blocks."
+    },
+    {
+      "addon": "custom-block-text",
+      "description": "To customize thickness text in blocks."
+    }
+  ],
   "versionAdded": "1.12.0",
   "enabledByDefault": false,
   "dynamicEnable": true,

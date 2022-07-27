@@ -4,7 +4,16 @@
   "info": [
     {
       "id": "reverseOrder",
-      "text": "To change the position of buttons above the stage, use the \"reverse order of project controls\" addon."
+      "text": "To move green flag andstop buttons to the left."
+    }
+  ],
+  "seeAlso": [
+    {
+      "addon": "editor-buttons-reverse-order",
+      "description": "To change the shape of blocks."
+    },
+    {
+      "addon": "fix-editor-comments"
     }
   ],
   "credits": [

@@ -8,6 +8,12 @@
       "link": "https://scratch.mit.edu/users/TheColaber/"
     }
   ],
+  "seeAlso": [
+    {
+      "addon": "block-count",
+      "description": "To show counts of blocks."
+    }
+  ],
   "dynamicEnable": true,
   "dynamicDisable": true,
   "injectAsStyleElt": true,

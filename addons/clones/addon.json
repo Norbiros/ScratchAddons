@@ -10,6 +10,12 @@
       "link": "https://github.com/OregSamSas"
     }
   ],
+  "seeAlso": [
+    {
+      "addon": "block-count",
+      "description": "To show amount of blocks used in project."
+    }
+  ],
   "dynamicEnable": true,
   "dynamicDisable": true,
   "versionAdded": "1.2.0",

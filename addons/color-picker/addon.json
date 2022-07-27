@@ -11,6 +11,12 @@
       "name": "apple502j"
     }
   ],
+  "seeAlso": [
+    {
+      "addon": "color-inputs",
+      "showInList": false
+    }
+  ],
   "userscripts": [
     {
       "url": "userscript.js",

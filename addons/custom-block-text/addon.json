@@ -12,6 +12,15 @@
       "link": "https://github.com/towerofnix"
     }
   ],
+  "seeAlso": [
+    {
+      "addon": "editor-theme3",
+      "description": "To customize color of blocks."
+    },
+    {
+      "addon": "custom-block-shape"
+    }
+  ],
   "userstyles": [
     {
       "url": "text-bold.css",

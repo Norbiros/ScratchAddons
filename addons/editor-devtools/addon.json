@@ -6,6 +6,13 @@
       "name": "griffpatch"
     }
   ],
+  "seeAlso": [
+    {
+      "addon": "move-to-top-bottom",
+      "description": "To move costume or sound to top or bottom of list.",
+      "showInList": false
+    }
+  ],
   "settings": [
     {
       "name": "Enhance \"Clean up Blocks\"",

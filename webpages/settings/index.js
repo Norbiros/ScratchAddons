@@ -465,6 +465,16 @@ let fuse;
       iframeData = await getRunningAddons(manifests, addonsEnabled);
     }
     const deepClone = (obj) => JSON.parse(JSON.stringify(obj));
+    
+    for (const { manifest, addonId } of manifests) {
+      for (const seeAlso of manifest.seeAlso || []) {
+        let tempManifest = manifests.filter((o) => o.addonId == seeAlso.addon)[0]?.manifest;
+        if (!addonsEnabled[addonId] || addonsEnabled[seeAlso.addon]) continue;
+        if (!tempManifest || seeAlso.showInList === false) continue;
+        tempManifest._forYou = true;
+      }
+    }
+    
     for (const { manifest, addonId } of manifests) {
       manifest._categories = [];
       manifest._categories[0] = manifest.tags.includes("popup")
@@ -549,8 +559,9 @@ let fuse;
       // Iframe only
       if (iframeData?.addonsCurrentlyOnTab.includes(addonId)) manifest._groups.push("runningOnTab");
       else if (iframeData?.addonsPreviouslyOnTab.includes(addonId)) manifest._groups.push("recentlyUsed");
-
-      if (manifest._enabled) manifest._groups.push("enabled");
+      
+      if (manifest._forYou) manifest._groups.push("forYou");
+      else if (manifest._enabled) manifest._groups.push("enabled");
       else {
         // Addon is disabled
         if (manifest.tags.includes("recommended")) manifest._groups.push("recommended");

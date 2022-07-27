@@ -7,6 +7,11 @@
       "link": "https://scratch.mit.edu/users/TheColaber/"
     }
   ],
+  "seeAlso": [
+    {
+      "addon": "remove-sprite-confirm"
+    }
+  ],
   "dynamicEnable": true,
   "dynamicDisable": true,
   "versionAdded": "1.4.0",

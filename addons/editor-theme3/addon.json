@@ -10,6 +10,15 @@
       "link": "https://scratch.mit.edu/users/TheColaber/"
     }
   ],
+  "seeAlso": [
+    {
+      "addon": "custom-block-shape"
+    },
+    {
+      "addon": "custom-block-text",
+      "description": "To customize thickness text in blocks."
+    }
+  ],
   "latestUpdate": {
     "version": "1.24.0",
     "temporaryNotice": "New setting to enable changing the colors of blocks in the forums.",

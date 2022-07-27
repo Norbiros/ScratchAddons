@@ -16,6 +16,12 @@
       "link": "https://github.com/gducrash"
     }
   ],
+  "seeAlso": [
+    {
+      "addon": "editor-dark-mode",
+      "description": "To add dark theme to code editor."
+    }
+  ],
   "customCssVariables": [
     {
       "name": "page-text",
